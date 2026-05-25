@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Marco & Jess Wedding Invitation</title>
+
+  <style>
+    :root {
+      --bg: #100c0d;
+      --paper: #f4eadb;
+      --ink: #241817;
+      --muted: rgba(244, 234, 219, 0.68);
+      --red: #561f29;
+      --green: #1d3a2c;
+      --plum: #3b243d;
+      --gold: #b99b63;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top left, rgba(86, 31, 41, 0.45), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(29, 58, 44, 0.38), transparent 34%),
+        radial-gradient(circle at center, rgba(185, 155, 99, 0.08), transparent 45%),
+        var(--bg);
+      color: var(--paper);
+      font-family: Georgia, "Times New Roman", serif;
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100svh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 18px;
+    }
+
+    .app {
+      width: min(94vw, 430px);
+      min-height: 92svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .top-bar {
+      width: 100%;
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .back-arrow {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid rgba(244, 234, 219, 0.32);
+      background: rgba(244, 234, 219, 0.08);
+      color: var(--paper);
+      font-size: 1.35rem;
+      line-height: 1;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.22);
+    }
+
+    .back-arrow.show {
+      display: inline-flex;
+    }
+
+    .stage {
+      width: 100%;
+      min-height: 560px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      perspective: 1200px;
+    }
+
+    .card-shell {
+      width: 100%;
+      max-width: 430px;
+      position: relative;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      animation: cardEnter 420ms ease both;
+      margin: 0 auto;
+    }
+
+    .card-shell.small-card {
+      width: min(78vw, 340px);
+      max-width: 340px;
+    }
+
+    .card-shell.medium-card {
+      width: min(86vw, 380px);
+      max-width: 380px;
+    }
+
+    .card-shell.large-card {
+      width: min(94vw, 430px);
+      max-width: 430px;
+    }
+
+    @keyframes cardEnter {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .whole-card {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 18px;
+      background: #eadcc8;
+      box-shadow:
+        0 24px 70px rgba(0, 0, 0, 0.48),
+        0 2px 0 rgba(255,255,255,0.08) inset;
+      pointer-events: none;
+    }
+
+    .split-card {
+      width: 100%;
+      position: relative;
+      border-radius: 18px;
+      overflow: visible;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.48);
+      transform-style: preserve-3d;
+    }
+
+    .split-base {
+      width: 100%;
+      height: auto;
+      display: block;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .flap {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      background: #eadcc8;
+      backface-visibility: hidden;
+      transition:
+        transform 900ms cubic-bezier(.2,.8,.2,1),
+        opacity 700ms ease,
+        filter 700ms ease;
+      will-change: transform, opacity;
+    }
+
+    .flap img {
+      position: absolute;
+      top: 0;
+      width: 200%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .flap-left {
+      left: 0;
+      border-radius: 18px 0 0 18px;
+      transform-origin: left center;
+    }
+
+    .flap-left img {
+      left: 0;
+    }
+
+    .flap-right {
+      right: 0;
+      border-radius: 0 18px 18px 0;
+      transform-origin: right center;
+    }
+
+    .flap-right img {
+      right: 0;
+    }
+
+    .card-shell.opening .flap-left {
+      transform: translateX(-42%) rotateY(-72deg);
+      opacity: 0;
+      filter: brightness(0.76);
+    }
+
+    .card-shell.opening .flap-right {
+      transform: translateX(42%) rotateY(72deg);
+      opacity: 0;
+      filter: brightness(0.76);
+    }
+
+    .card-shell.opening {
+      pointer-events: none;
+    }
+
+    .card-shell.exit {
+      animation: cardExit 300ms ease both;
+    }
+
+    @keyframes cardExit {
+      from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(-14px) scale(0.96);
+      }
+    }
+
+    .hint {
+      margin-top: 16px;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .dots {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(244, 234, 219, 0.28);
+      transition: all 220ms ease;
+    }
+
+    .dot.active-dot {
+      width: 20px;
+      background: rgba(244, 234, 219, 0.82);
+    }
+
+    .rsvp-button {
+      display: none;
+      margin-top: 18px;
+      appearance: none;
+      border: 1px solid var(--paper);
+      background: var(--paper);
+      color: var(--ink);
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .rsvp-button.show {
+      display: inline-flex;
+    }
+
+    .missing {
+      width: 100%;
+      min-height: 220px;
+      border-radius: 18px;
+      background: var(--paper);
+      color: var(--ink);
+      box-shadow: 0 24px 70px rgba(0,0,0,0.48);
+      padding: 28px;
+      text-align: center;
+      display: grid;
+      place-items: center;
+      line-height: 1.5;
+    }
+
+    @media (max-height: 720px) {
+      body {
+        align-items: flex-start;
+        padding-top: 12px;
+      }
+
+      .app {
+        min-height: auto;
+      }
+
+      .stage {
+        min-height: 500px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <div class="top-bar">
+      <button class="back-arrow" id="backArrow" type="button" aria-label="Go back">←</button>
+    </div>
+
+    <section class="stage" id="stage" aria-label="Wedding invitation">
+      <!-- Card loads here -->
+    </section>
+
+    <button class="rsvp-button" id="rsvpButton" type="button">RSVP</button>
+
+    <div class="hint" id="hintText">
+      tap to open
+    </div>
+
+    <div class="dots" id="dots"></div>
+  </main>
+
+  <script>
+    const TALLY_LINK = "https://tally.so/r/NpM0O0";
+
+    const cards = [
+      {
+        src: "assets/invite/01-name-strip.png",
+        alt: "Marco and Jess name strip",
+        split: true,
+        sizeClass: "small-card"
+      },
+      {
+        src: "assets/invite/02-main-invite.png",
+        alt: "Main wedding invitation for Marco Maria and Jess Arceo",
+        split: false,
+        sizeClass: "large-card"
+      },
+      {
+        src: "assets/invite/03-details.png",
+        alt: "Wedding details card",
+        split: false,
+        sizeClass: "small-card"
+      },
+      {
+        src: "assets/invite/04-rsvp-card.png",
+        alt: "RSVP card",
+        split: false,
+        sizeClass: "medium-card"
+      }
+    ];
+
+    let currentIndex = 0;
+    let isAnimating = false;
+
+    const stage = document.getElementById("stage");
+    const backArrow = document.getElementById("backArrow");
+    const hintText = document.getElementById("hintText");
+    const dots = document.getElementById("dots");
+    const rsvpButton = document.getElementById("rsvpButton");
+
+    function buildDots() {
+      dots.innerHTML = "";
+
+      cards.forEach((_, index) => {
+        const dot = document.createElement("div");
+        dot.className = "dot";
+        if (index === currentIndex) dot.classList.add("active-dot");
+        dots.appendChild(dot);
+      });
+    }
+
+    function renderCard() {
+      const card = cards[currentIndex];
+
+      rsvpButton.classList.toggle("show", currentIndex === cards.length - 1);
+      backArrow.classList.toggle("show", currentIndex > 0);
+
+      hintText.style.display = "block";
+      dots.style.display = "flex";
+
+      hintText.textContent =
+        currentIndex === cards.length - 1
+          ? "tap RSVP to respond"
+          : "tap card to open";
+
+      if (card.split) {
+        stage.innerHTML = `
+          <div class="card-shell ${card.sizeClass}" id="activeCard" role="button" tabindex="0" aria-label="Open card">
+            <div class="split-card">
+              <img class="split-base" src="${card.src}" alt="" draggable="false">
+              <div class="flap flap-left">
+                <img src="${card.src}" alt="${card.alt}" draggable="false"
+                  onerror="this.closest('.card-shell').innerHTML='<div class=&quot;missing&quot;><div><strong>Image missing</strong><br>${card.src}<br><br>Check the file name and folder path.</div></div>'">
+              </div>
+              <div class="flap flap-right">
+                <img src="${card.src}" alt="" draggable="false">
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        stage.innerHTML = `
+          <div class="card-shell ${card.sizeClass}" id="activeCard" role="button" tabindex="0" aria-label="Open card">
+            <img
+              class="whole-card"
+              src="${card.src}"
+              alt="${card.alt}"
+              draggable="false"
+              onerror="this.outerHTML='<div class=&quot;missing&quot;><div><strong>Image missing</strong><br>${card.src}<br><br>Check the file name and folder path.</div></div>'"
+            />
+          </div>
+        `;
+      }
+
+      const activeCard = document.getElementById("activeCard");
+
+      if (activeCard) {
+        activeCard.addEventListener("click", openCurrentCard);
+        activeCard.addEventListener("keydown", function(event) {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            openCurrentCard();
+          }
+        });
+      }
+
+      buildDots();
+    }
+
+    function openCurrentCard() {
+      if (isAnimating) return;
+
+      if (currentIndex === cards.length - 1) {
+        return;
+      }
+
+      isAnimating = true;
+
+      const card = cards[currentIndex];
+      const activeCard = document.getElementById("activeCard");
+
+      if (!activeCard) {
+        isAnimating = false;
+        return;
+      }
+
+      if (card.split) {
+        activeCard.classList.add("opening");
+
+        setTimeout(() => {
+          activeCard.classList.add("exit");
+        }, 620);
+
+        setTimeout(() => {
+          currentIndex += 1;
+          isAnimating = false;
+          renderCard();
+        }, 980);
+      } else {
+        activeCard.classList.add("exit");
+
+        setTimeout(() => {
+          currentIndex += 1;
+          isAnimating = false;
+          renderCard();
+        }, 300);
+      }
+    }
+
+    function goBack() {
+      if (isAnimating) return;
+
+      if (currentIndex > 0) {
+        currentIndex -= 1;
+        renderCard();
+      }
+    }
+
+    function openTally() {
+      window.open(TALLY_LINK, "_blank");
+    }
+
+    rsvpButton.addEventListener("click", openTally);
+    backArrow.addEventListener("click", goBack);
+
+    renderCard();
+  </script>
+</body>
+</html>
